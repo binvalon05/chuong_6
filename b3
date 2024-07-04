@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+
+class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public double Price { get; set; }
+    public string Category { get; set; }
+}
+
+class Program
+{
+    static List<Product> ReadProductsFromJSON(string filePath)
+    {
+        string jsonString = File.ReadAllText(filePath);
+        List<Product> products = JsonSerializer.Deserialize<List<Product>>(jsonString);
+        return products;
+    }
+
+    static void WriteProductsToJSON(string filePath, List<Product> products)
+    {
+        string jsonString = JsonSerializer.Serialize(products);
+        File.WriteAllText(filePath, jsonString);
+
+        Console.WriteLine("Products have been written to JSON successfully.");
+    }
+
+    static void Main()
+    {
+        string filePath = "products.json";
+
+        // Đọc danh sách sản phẩm từ tệp JSON
+        List<Product> products = ReadProductsFromJSON(filePath);
+
+        // In thông tin sản phẩm lên màn hình để kiểm tra
+        foreach (var product in products)
+        {
+            Console.WriteLine($"Id: {product.Id}, Name: {product.Name}, Price: {product.Price}, Category: {product.Category}");
+        }
+
+        // Thêm hoặc chỉnh sửa thông tin sản phẩm trong danh sách.
+
+        // Ghi danh sách sản phẩm vào tệp JSON
+        WriteProductsToJSON(filePath, products);
+    }
+}
