@@ -1,0 +1,56 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static string FilePath = "data.txt";
+
+    static void CreateFile(string filePath)
+    {
+        File.Create(filePath);
+    }
+
+    static void WriteToFile(string filePath, string content)
+    {
+        File.WriteAllText(filePath, content);
+    }
+
+    static void ReadFromFile(string filePath)
+    {
+        string content = File.ReadAllText(filePath);
+        Console.WriteLine("Content of the file:");
+        Console.WriteLine(content);
+    }
+
+    static void AppendToFile(string filePath, string content)
+    {
+        File.AppendAllText(filePath, content);
+    }
+
+    static void DeleteFile(string filePath)
+    {
+        File.Delete(filePath);
+    }
+
+    static void Main()
+    {
+        CreateFile(FilePath);
+
+        string sampleContent = "Hello, this is sample content.";
+        WriteToFile(FilePath, sampleContent);
+
+        ReadFromFile(FilePath);
+
+        string additionalContent = "\nThis is additional content.";
+        AppendToFile(FilePath, additionalContent);
+
+        ReadFromFile(FilePath);
+
+        DeleteFile(FilePath);
+
+        Console.WriteLine("File deleted successfully.");
+
+        // Hoặc thêm dòng lệnh sau nếu muốn chương trình dừng lại để xem kết quả trước khi thoát.
+        // Console.ReadLine();
+    }
+}
