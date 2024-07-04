@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+class Student
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public string Grade { get; set; }
+}
+
+class Program
+{
+    static List<Student> ReadStudentsFromCSV(string filePath)
+    {
+        List<Student> students = new List<Student>();
+
+        using (StreamReader reader = new StreamReader(filePath))
+        {
+            while (!reader.EndOfStream)
+            {
+                var line = reader.ReadLine();
+                var values = line.Split(',');
+
+                Student student = new Student
+                {
+                    Id = Convert.ToInt32(values[0]),
+                    Name = values[1],
+                    Age = Convert.ToInt32(values[2]),
+                    Grade = values[3]
+                };
+
+                students.Add(student);
+            }
+        }
+
+        return students;
+    }
+
+    static void WriteStudentsToCSV(string filePath, List<Student> students)
+    {
+        using (StreamWriter writer = new StreamWriter(filePath))
+        {
+            foreach (var student in students)
+            {
+                writer.WriteLine($"{student.Id},{student.Name},{student.Age},{student.Grade}");
+            }
+        }
+
+        Console.WriteLine("Students have been written to CSV successfully.");
+    }
+
+    static void Main()
+    {
+        string filePath = "students.csv";
+
+        // Đọc danh sách sinh viên từ tệp CSV
+        List<Student> students = ReadStudentsFromCSV(filePath);
+
+        // In thông tin sinh viên lên màn hình để kiểm tra
+        foreach (var student in students)
+        {
+            Console.WriteLine($"Id: {student.Id}, Name: {student.Name}, Age: {student.Age}, Grade: {student.Grade}");
+        }
+
+        // Thêm hoặc chỉnh sửa thông tin sinh viên trong danh sách.
+
+        // Ghi danh sách sinh viên vào tệp CSV
+        WriteStudentsToCSV(filePath, students);
+    }
+}
